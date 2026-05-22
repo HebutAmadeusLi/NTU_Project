@@ -1,0 +1,108 @@
+{
+  "jurisdiction": "EU",
+  "jurisdiction_name": "European Union",
+  "regulatory_focus": "EU AI Act high-risk AI system governance for creditworthiness assessment",
+  "model_performance": {
+    "test_accuracy": 0.6861,
+    "test_auc": 0.6553,
+    "test_size": 360,
+    "train_size": 840
+  },
+  "fairness_summary": {
+    "gender": {
+      "approval_rate_by_group": {
+        "female": 0.1421,
+        "male": 0.1294
+      },
+      "disparate_impact_ratio": 0.9107,
+      "demographic_parity_difference": 0.0127,
+      "false_negative_rate_by_group": {
+        "female": 0.7353,
+        "male": 0.7759
+      }
+    },
+    "ethnicity": {
+      "approval_rate_by_group": {
+        "majority_group": 0.1506,
+        "minority_group": 0.099
+      },
+      "disparate_impact_ratio": 0.6575,
+      "demographic_parity_difference": 0.0516,
+      "false_negative_rate_by_group": {
+        "majority_group": 0.73,
+        "minority_group": 0.8462
+      }
+    }
+  },
+  "fairness_alerts": [
+    {
+      "protected_attribute": "ethnicity",
+      "metric": "disparate_impact_ratio",
+      "observed_value": 0.6575,
+      "threshold": 0.9,
+      "alert": "Potential disparity detected; compliance team review required."
+    }
+  ],
+  "sample_denied_applicant_explanation": {
+    "applicant_id": "A00424",
+    "predicted_approval_probability": 0.089,
+    "top_adverse_reasons": [
+      {
+        "feature": "delinquencies",
+        "raw_value": 2.0,
+        "contribution_to_approval": -0.7077
+      },
+      {
+        "feature": "debt_to_income",
+        "raw_value": 0.597,
+        "contribution_to_approval": -0.515
+      },
+      {
+        "feature": "credit_score",
+        "raw_value": 643.0,
+        "contribution_to_approval": -0.1529
+      }
+    ]
+  },
+  "decision_boundary": {
+    "approval_threshold": 0.5,
+    "meaning": "Applicants with predicted approval probability >= threshold are predicted approved."
+  },
+  "eu_specific_output": {
+    "high_risk_ai_system": true,
+    "technical_documentation_required": true,
+    "human_oversight_required": true,
+    "audit_log_required": true,
+    "human_oversight_record": {
+      "review_owner": "Senior Credit Risk Manager",
+      "override_allowed": true,
+      "mandatory_review_trigger": "Any fairness alert or material model drift event"
+    },
+    "technical_documentation_stub": {
+      "intended_purpose": "Credit approval support for consumer lending applications",
+      "input_data": [
+        "income",
+        "credit_score",
+        "debt_to_income",
+        "delinquencies",
+        "requested_loan_amount"
+      ],
+      "excluded_from_model_but_used_for_audit": [
+        "gender",
+        "ethnicity"
+      ],
+      "known_limitations": [
+        "Synthetic training data may not match live applicant population.",
+        "Coefficient explanation is an approximation and not a full causal explanation.",
+        "The tool covers fairness monitoring, not the whole EU AI Act compliance lifecycle."
+      ],
+      "data_governance_checks": [
+        "Check missingness by protected attribute.",
+        "Monitor approval-rate disparity by protected attribute.",
+        "Monitor performance drift and false negative rate differences."
+      ]
+    },
+    "compliance_interpretation": "The EU report adds high-risk AI governance documentation, bias testing, audit logging and human oversight fields rather than only providing a consumer-facing denial reason."
+  },
+  "prototype_compliance_status": "REVIEW_REQUIRED"
+}

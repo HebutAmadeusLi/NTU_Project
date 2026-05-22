@@ -1,0 +1,55 @@
+{
+  "model_name": "Synthetic Credit Approval Logistic Regression Model",
+  "model_type": "Logistic regression classification model",
+  "intended_use": "Classroom prototype for jurisdiction-aware RegTech compliance monitoring in credit scoring / algorithmic fairness.",
+  "not_intended_for": [
+    "Real credit decisions",
+    "Production lending",
+    "Legal advice",
+    "Full replacement of human compliance judgement"
+  ],
+  "input_features": [
+    "income",
+    "credit_score",
+    "debt_to_income",
+    "delinquencies",
+    "requested_loan_amount"
+  ],
+  "protected_attributes_for_audit_only": [
+    "gender",
+    "ethnicity"
+  ],
+  "performance": {
+    "test_accuracy": 0.6861,
+    "test_auc": 0.6553,
+    "test_size": 360,
+    "train_size": 840
+  },
+  "assumptions": [
+    "Synthetic data is used because real bank credit data is unavailable.",
+    "Protected attributes are excluded from model training but retained for fairness auditing.",
+    "Different jurisdictions can require different reporting and governance outputs."
+  ],
+  "failure_modes": [
+    {
+      "failure": "Jurisdictional misconfiguration",
+      "example": "EU portfolio is checked using US-only report settings.",
+      "mitigation": "Use validated jurisdiction codes and require compliance-owner approval."
+    },
+    {
+      "failure": "Model drift",
+      "example": "Applicant population changes and approval disparity increases.",
+      "mitigation": "Schedule periodic drift monitoring and retraining review."
+    },
+    {
+      "failure": "Rule change mid-period",
+      "example": "Regulatory threshold or documentation requirement changes during a reporting cycle.",
+      "mitigation": "Version the rules engine and store the rule version used for each report."
+    },
+    {
+      "failure": "Explanation overclaim",
+      "example": "Reason codes are treated as causal explanations.",
+      "mitigation": "Label explanations as model-based approximations and require human review."
+    }
+  ]
+}
